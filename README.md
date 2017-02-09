@@ -9,8 +9,8 @@ In a re-frame app, we have a single source of client-side app state, which we ca
 1. Dispatching events: views and/or event-handlers can dispatch events using the *`re-frame.core/dispatch`* function.
 2. Event handling: event handlers are defined in `events.cljs`. They are pure functions of the *`app-db`* that return a modified *`app-db`*. Thus, changes to the app-db are made only in an event handler.
 3. Effect handling: 'effectful event handlers' can describe side-effects as data, which are effected by functions registered in `effects.cljs`.
-4. Query (subscriptions): subscriptions extract specific data from the *`app-db*`, and are defined in `subs.cljs`.
-5. View: views are defined in `views.cljs` in Hiccup syntax and they describe the HTML as pure data. They can subscribe to a subscription to pass some of the app's state (from *`app-db*`) to the view.
+4. Query (subscriptions): subscriptions extract specific data from the *`app-db`*, and are defined in `subs.cljs`.
+5. View: views are defined in `views.cljs` in Hiccup syntax and they describe the HTML as pure data. They can subscribe to a subscription to pass some of the app's state (from *`app-db`*) to the view.
 6. DOM: the conversion of a view, which is pure data, into a DOM element is handled entirely by reagent.
 
 
@@ -90,15 +90,17 @@ Depending on the type of event, these events have to be registered in:
 
 #### for global events
 Global events are events which:
-a) change a value that is used across panels in the `app-db`, i.e. not state that is not local to a panel
-b) or events triggered by the root view.
+
+* change a value that is used across panels in the `app-db`, i.e. not state that is not local to a panel
+* or events triggered by the root view.
 
 These event-handlers should be registered in the `app.events` namespace.
 
 #### for local events
 Local events are events which:
-a) change the app-db state local to the panel associated with the event
-b) or events triggered by a panel's view
+
+* change the app-db state local to the panel associated with the event
+* or events triggered by a panel's view
 
 Then event-handlers should be registered in the panel's events namespace, e.g. `app.panel1.events`.
 
@@ -147,14 +149,20 @@ The app's global state subscriptions are available in `app.subs`, while the subs
 ## 4. Views
 ##### Panel-specific Views vs Global Views
 Views can be either:
+
 1. specific to a panel
-Some views are defined in the panel's views namespace (`app.panel1.views`), and are used only by the panel. For example, about page.
+
+   Some views are defined in the panel's views namespace (`app.panel1.views`), and are used only by the panel. For example, about page.
+
 2. used across panels
-Such views are defined in the `app.views` namespace and can be reused wherever required, even across panels. For example, a navigation bar or a loading throbber.
+
+   Such views are defined in the `app.views` namespace and can be reused wherever required, even across panels. For example, a navigation bar or a loading throbber.
 
 ##### Containers vs Components
-Within each views namespace, you will find container views and component views. The distinction is trivial:
+Within each views namespace, you will find container views and component views. The distinction between the two is as described below:
+
 1. Containers are views which refer to subscriptions in their function body.
+
 2. Components are views that do not refer to subscriptions in their function body.
 
 This pattern is borrowed from the React ecosystem (called the [Container/Component pattern](https://medium.com/@learnreact/container-components-c0e67432e005#.mb0hzgm3l) and is recommended for use with re-frame [here](https://github.com/Day8/re-frame/wiki/Testing), as components are easier to test.
