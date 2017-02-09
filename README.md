@@ -3,14 +3,14 @@ A boilerplate to quickly get started with developing large SPAs in ClojureScript
 
 # Introduction
 
-In a re-frame app, we have a single source of client-side app state, which we call `*app-db*`. To see how a re-frame app is structured, read the [re-frame docs](https://github.com/Day8/re-frame/tree/master/docs). The 6 'dominoes' that form an infinite loop as specified in the re-frame docs are:
+In a re-frame app, we have a single source of client-side app state, which we call *`app-db`*. To see how a re-frame app is structured, read the [re-frame docs](https://github.com/Day8/re-frame/tree/master/docs). The 6 'dominoes' that form an infinite loop as specified in the re-frame docs are:
 
 
-1. Dispatching events: views and/or event-handlers can dispatch events using the `*re-frame.core/dispatch*` function.
-2. Event handling: event handlers are defined in `events.cljs`. They are pure functions of the`*app-db*` that return a modified `*app-db*`. Thus, changes to the app-db are made only in an event handler.
+1. Dispatching events: views and/or event-handlers can dispatch events using the *`re-frame.core/dispatch`* function.
+2. Event handling: event handlers are defined in `events.cljs`. They are pure functions of the *`app-db`* that return a modified *`app-db`*. Thus, changes to the app-db are made only in an event handler.
 3. Effect handling: 'effectful event handlers' can describe side-effects as data, which are effected by functions registered in `effects.cljs`.
-4. Query (subscriptions): subscriptions extract specific data from the `*app-db*`, and are defined in `subs.cljs`.
-5. View: views are defined in `views.cljs` in Hiccup syntax and they describe the HTML as pure data. They can subscribe to a subscription to pass some of the app's state (from `*app-db*`) to the view.
+4. Query (subscriptions): subscriptions extract specific data from the *`app-db*`, and are defined in `subs.cljs`.
+5. View: views are defined in `views.cljs` in Hiccup syntax and they describe the HTML as pure data. They can subscribe to a subscription to pass some of the app's state (from *`app-db*`) to the view.
 6. DOM: the conversion of a view, which is pure data, into a DOM element is handled entirely by reagent.
 
 
@@ -51,7 +51,7 @@ re-frame boilerplate uses the folder structure suggested in the re-frame docs fo
 *FIXME*
 
 ## App Initialization
-The :initialize-db event handler registered in `app.events` initializes the app with the `*default-db*` specified in the `app.subs` namespace. **Note that `*default-db*` is specified for the whole app, and not for each panel.** This can be done if required, although it will increase boilerplate code.
+The :initialize-db event handler registered in `app.events` initializes the app with the *`default-db`* specified in the `app.subs` namespace. **Note that *`default-db`* is specified for the whole app, and not for each panel.** This can be done if required, although it will increase boilerplate code.
 
 The entire initialization process is described [here](https://github.com/Day8/re-frame/blob/master/docs/Loading-Initial-Data.md).
 
