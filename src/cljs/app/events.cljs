@@ -20,4 +20,8 @@
 ;; Effectful Handlers
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; API Calls
+;; API Call Handlers ;;
+;; Each API call must have event-handlers for:
+;; a) Request event
+;; b) Success event
+;; c) Error event
