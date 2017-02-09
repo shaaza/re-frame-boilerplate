@@ -2,8 +2,16 @@
   (:require [re-frame.core :as re-frame]
             [app.home.subs]))
 
-(re-frame/reg-event-db
- :home/submit!
- (fn [db]
-   (js/alert "you clicked me!")
-   (identity db)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 'Pure' handlers
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Effectful Handlers
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(re-frame/reg-event-fx
+ :home/click-alert
+ (fn [db _]
+   {:db (assoc db :loading true)
+    :alert "You clicked me!"}))

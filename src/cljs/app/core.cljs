@@ -5,7 +5,7 @@
               [app.routes :as routes]
               [app.config :as config]
               [app.views :as views]
-              [app.events] [app.subs]
+              [app.events] [app.subs] [app.effects]
               [app.home.events] [app.home.subs]
               ))
 
