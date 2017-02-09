@@ -4,12 +4,15 @@ A boilerplate to quickly get started with developing large SPAs in ClojureScript
 # Introduction
 
 To see how a re-frame app is structured, read the re-frame docs. The 6 dominoes form an infinite loop as specified in the docs are:
+
+
 1. Dispatching events: views, or event-handlers can dispatch events using the re-frame.core/dispatch function.
 2. Event handling: event handlers are defined in events.cljs. They are pure functions of the app-db (i.e. app state) and they return the new app-db. Thus, changes to the app-db are made only in an event handler.
-3. Effect handling: events can describe side-effects, which are handled by 'effectful handler', described in effects.cljs.
+3. Effect handling: events can describe side-effects, which are handled by 'effectful handlers', described in effects.cljs.
 4. Query (subscriptions): subscriptions extract data from the app's state, and are defined in subs.cljs.
 5. View: defined in views.cljs and written in Hiccup syntax, they describe the HTML as pure data and can subscribe to a subscription to pass some of the app's state to the view.
 6. DOM: the conversion of a view, which is pure data, into a DOM element is handled entirely by Reagent.
+
 
 We use an event called :initialize-db to initiliaze this eternal loop on app load.
 
@@ -52,35 +55,6 @@ The :initialize-db event handler registered in app.events initializes the app wi
 
 The entire initialization process is described [here](https://github.com/Day8/re-frame/blob/master/docs/Loading-Initial-Data.md).
 
-## Views
-##### Panel-specific Views vs Global Views
-Views can be either:
-1. specific to a panel
-Some views are defined in the panel's views namespace (app.panel1.views), and are used only by the panel. For example, about page.
-2. used across panels
-Such views are defined in the app.views namespace and can be reused wherever required, even across panels. For example, a navigation bar or a loading throbber.
-
-##### Containers vs Components
-Within each views namespace, you will find container views and component views. The distinction is trivial:
-1. Containers are views which refer to subscriptions in their function body.
-2. Components are views that do not refer to subscriptions in their function body.
-
-This pattern is borrowed from the React ecosystem (called the [Container/Component pattern](https://medium.com/@learnreact/container-components-c0e67432e005#.mb0hzgm3l) and is recommended for use with re-frame [here](https://github.com/Day8/re-frame/wiki/Testing), as components are easier to test.
-
-### Adding a view that is local to a panel
-*FIXME*
-### Adding a view used across panels
-*FIXME*
-### Editing the root parent view
-*FIXME*
-### Styling
-CSS styles are specified in resources/public/index.css, and the Hiccup syntax allows for specifying classes and IDs of HTML tags in the view functions.
-
-To add a new stylesheet:
-```
-1. add the css stylesheet in the resources/public/ folder
-2. include the css stylesheet in resources/public/index.html using an html <link> tag.
-```
 ## Routing
 re-frame-boilerplate uses secretary for client-side routing.
 
@@ -93,7 +67,17 @@ re-frame-boilerplate uses secretary for client-side routing.
 ```
 *FIXME*
 ```
-## Event Handling
+
+***
+
+Out of the 6 'dominoes' outlined in the introduction, only 4 occupy discrete namespaces in our codebase. #1 and #6 do not occupy a namespace, because:
+
+* in the case of #1, events are dispatched from the views or from another event/effect handler.
+* in the case of #6, all the conversion of Hiccup views to HTML is done by Reagent.
+
+So, you app's code will contain only four of the 6 dominoes:
+
+## 1. Event Handling
 ### Registering event-handlers
 
 An event-handler that is pure (i.e. no side-effects) can be registered using:
@@ -144,15 +128,52 @@ For example, for a panel named 'home':
 ```
 
 #### for effectful events
-(i.e. events which are not pure functions of the app-db)
+(i.e. events which are not pure functions of the app-db. They may dispatch other events, make API calls, call the browser API etc.)
 
 An effectful event is named with an exclamation mark (!) at the end. For example:
 ```
 :home/get-users!
 ```
 
-## Database
+## 2. Effects
+Effects are described as data in event handlers (registered using the reg-event-fx, returning data that described the effect).
+Effects are registered using reg-fx. *FIXME*
+
+## 3. Database (Subscriptions to app-db)
 The app's global state subscriptions are available in app.subs, while the subscriptions for each panel are available in their respective directories. **Note that re-frame makes no distinction between 'global state' and 'state local to each panel'. This is merely a structure we impose on our codebase.**
+
+## 4. Views
+##### Panel-specific Views vs Global Views
+Views can be either:
+1. specific to a panel
+Some views are defined in the panel's views namespace (app.panel1.views), and are used only by the panel. For example, about page.
+2. used across panels
+Such views are defined in the app.views namespace and can be reused wherever required, even across panels. For example, a navigation bar or a loading throbber.
+
+##### Containers vs Components
+Within each views namespace, you will find container views and component views. The distinction is trivial:
+1. Containers are views which refer to subscriptions in their function body.
+2. Components are views that do not refer to subscriptions in their function body.
+
+This pattern is borrowed from the React ecosystem (called the [Container/Component pattern](https://medium.com/@learnreact/container-components-c0e67432e005#.mb0hzgm3l) and is recommended for use with re-frame [here](https://github.com/Day8/re-frame/wiki/Testing), as components are easier to test.
+
+### Adding a view that is local to a panel
+*FIXME*
+### Adding a view used across panels
+*FIXME*
+### Editing the root parent view
+*FIXME*
+### Styling
+CSS styles are specified in resources/public/index.css, and the Hiccup syntax allows for specifying classes and IDs of HTML tags in the view functions.
+
+To add a new stylesheet:
+```
+1. add the css stylesheet in the resources/public/ folder
+2. include the css stylesheet in resources/public/index.html using an html <link> tag.
+```
+
+
+
 
 
 
